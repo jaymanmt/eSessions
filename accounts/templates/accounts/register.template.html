@@ -1,0 +1,9 @@
+{%extends 'base.template.html'%}{%block content%}
+<h1>Register below</h1>
+<form method="POST">
+    {%csrf_token%}
+    {{form.as_p}}
+    <input type="submit" name="register-btn" value="Register"/>
+</form>
+
+{%endblock%}
