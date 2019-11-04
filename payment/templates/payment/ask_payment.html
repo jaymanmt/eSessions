@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>How much would you like to pay?</h1>
+    <form method='GET' action='{% url 'pay_here' %}'>
+        {%csrf_token%}
+        <label>Amount Due:</label>
+        <input type="number" name="amount" placeholder="in SGD"/>
+        <input type="submit" value="Confirm Payment"/>
+    </form>
+</body>
+</html>

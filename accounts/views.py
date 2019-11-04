@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, reverse, redirect
 from django.contrib import auth, messages
 from .forms import UserLoginForm, UserRegistrationForm
 
+
 # Create your views here.
 def home(request):
     return render(request, 'base.template.html')
