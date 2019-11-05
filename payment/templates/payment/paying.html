@@ -7,8 +7,17 @@
     <title>Document</title>
 </head>
 <body>
+    <h1>How much would you like to pay?</h1>
+    <form method='GET' action='{% url 'pay_here' %}'>
+        {%csrf_token%}
+        {{details_form.as_p}}
+        <label>Amount Due:</label>
+        <input type="number" name="amount" placeholder="in SGD"/>
+        <input type="submit" value="Confirm Payment"/>
+    </form>
     <h1>Make your Payment Here</h1>
     <p>Thank you, you have indicated to pay SGD {{amount}}</p>
+    
     <form method="POST">
       {% csrf_token %}
       <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"

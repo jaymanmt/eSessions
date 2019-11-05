@@ -13,20 +13,20 @@ class UserLoginForm(forms.Form):
 
     
 class UserRegistrationForm(UserCreationForm):
-    password1 = forms.CharField(widget=forms.PasswordInput)
-    password2 = forms.CharField(label="confirm password", widget=forms.PasswordInput)
+    password1 = forms.CharField(label="Choose a valid password", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Confirm password", widget=forms.PasswordInput)
     
     class Meta(MyUser):
         model = MyUser
-        fields = ['email','username','password1', 'password2','injuries','mobile']
+        fields = ['first_name','last_name','email','username','password1', 'password2','injuries','mobile']
     
     def clean_email(self):
         User = get_user_model()
-        email = self.cleaned_data.get('email')
+        provided_email = self.cleaned_data.get('email')
         #using the Django ORM to check for existing emails of the same name that was entered
-        if User.objects.filter(email=email):
+        if User.objects.filter(email=provided_email):
             raise forms.ValidationError('This email is currently being used')
-        return email
+        return provided_email
     
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
