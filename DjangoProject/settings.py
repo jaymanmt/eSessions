@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'storages',
     'accounts',
     'tasks',
     'payment'
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'DjangoProject.urls'
@@ -140,9 +142,35 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    '/var/www/static/',
+    os.path.join(BASE_DIR, "static")
 ]
+
+AWS_S3_OBJECT_PARAMETERS={
+    'Expires':'Thu, 31 Dec 2099 20:00:00 GMT',
+    'CacheControl':'max-age=946800'
+}
+
+AWS_STORAGE_BUCKET_NAME="jtxh-files"
+AWS_S3_REGION_NAME="ap-southeast-1"
+AWS_ACCESS_KEY_ID=os.environ["AWS_ACCESS_KEY_ID"]
+AWS_SECRET_ACCESS_KEY=os.environ["AWS_SECRET_ACCESS_KEY"]
+AWS_S3_CUSTOM_DOMAIN="{}.s3.amazonaws.com".format(AWS_STORAGE_BUCKET_NAME)
+
+STATICFILES_STORAGE="storages.backends.s3boto3.S3Boto3Storage"
+
+STATICFILES_LOCATION="static"
+DEFAULT_FILE_STORAGE='custom_storages.MediaStorage'
+
+MEDIAFILES_LOCATION="media"
 
 STRIPE_PUBLISHABLE_KEY = os.environ["STRIPE_PUBLISHABLE_KEY"]
 STRIPE_SECRET_KEY = os.environ["STRIPE_SECRET_KEY"]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
+MAILGUN_ACCESS_KEY=os.environ["MAILGUN_ACCESS_KEY"]
+MAILGUN_SERVER_NAME=os.environ["MAILGUN_SERVER_NAME"]
+DEFAULT_FROM_EMAIL="no-reply@mail.sgmuaythai.org"
